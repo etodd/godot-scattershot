@@ -6,7 +6,7 @@ A Godot 4 addon to randomly distribute meshes and decals in a scene in realtime.
 
 An example of how fast it can redistribute instances:
 
-https://github.com/user-attachments/assets/d2c382a4-5332-4131-b334-8d63b962eaa2
+https://github.com/user-attachments/assets/9cfe3d10-c0c6-4f34-a3b3-a19b321b39bd
 
 ## Usage
 
