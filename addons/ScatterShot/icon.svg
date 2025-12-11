@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="scatter_shot.svg"
+   width="32"
+   height="32"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.3988929"
+     inkscape:cx="-321.32552"
+     inkscape:cy="-46.107889"
+     inkscape:window-width="2560"
+     inkscape:window-height="1403"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1" />
+  <path
+     id="path56"
+     d="M 32,2 V 6 Q 32,6.85 31.4,7.45 30.8,8 30,8 H 26 Q 25.15,8 24.55,7.45 24,6.85 24,6 V 2.05 Q 24,1.2 24.55,0.6 25.15,0 26,0 h 4 Q 30.8,0 31.4,0.6 32,1.2 32,2 M 20,2 V 6 Q 20,6.85 19.4,7.45 18.8,8 18,8 H 14 Q 13.15,8 12.55,7.45 12,6.85 12,6 V 2.05 Q 12,1.2 12.55,0.6 13.15,0 14,0 h 4 Q 18.8,0 19.4,0.6 20,1.2 20,2 m 6,10 h 4 q 0.8,0 1.4,0.6 0.6,0.6 0.6,1.4 v 4 q 0,0.85 -0.6,1.45 Q 30.8,20 30,20 H 26 Q 25.15,20 24.55,19.45 24,18.85 24,18 V 14.05 Q 24,13.2 24.55,12.6 25.15,12 26,12 m -6.6,0.6 Q 20,13.2 20,14 v 4 q 0,0.85 -0.6,1.45 Q 18.8,20 18,20 H 14 Q 13.15,20 12.55,19.45 12,18.85 12,18 V 14.05 Q 12,13.2 12.55,12.6 13.15,12 14,12 h 4 q 0.8,0 1.4,0.6 M 32,26 v 4 q 0,0.85 -0.6,1.45 Q 30.8,32 30,32 H 26 Q 25.15,32 24.55,31.45 24,30.85 24,30 V 26.05 Q 24,25.2 24.55,24.6 25.15,24 26,24 h 4 q 0.8,0 1.4,0.6 Q 32,25.2 32,26 M 19.4,24.6 Q 20,25.2 20,26 v 4 q 0,0.85 -0.6,1.45 Q 18.8,32 18,32 H 14 Q 13.15,32 12.55,31.45 12,30.85 12,30 V 26.05 Q 12,25.2 12.55,24.6 13.15,24 14,24 h 4 q 0.8,0 1.4,0.6 M 8,2 V 6 Q 8,6.85 7.4,7.45 6.8,8 6,8 H 2 Q 1.15,8 0.55,7.45 0,6.85 0,6 V 2.05 Q 0,1.2 0.55,0.6 1.15,0 2,0 H 6 Q 6.8,0 7.4,0.6 8,1.2 8,2 M 6,12 Q 6.8,12 7.4,12.6 8,13.2 8,14 v 4 Q 8,18.85 7.4,19.45 6.8,20 6,20 H 2 Q 1.15,20 0.55,19.45 0,18.85 0,18 V 14.05 Q 0,13.2 0.55,12.6 1.15,12 2,12 h 4 m 2,14 v 4 Q 8,30.85 7.4,31.45 6.8,32 6,32 H 2 Q 1.15,32 0.55,31.45 0,30.85 0,30 V 26.05 Q 0,25.2 0.55,24.6 1.15,24 2,24 H 6 Q 6.8,24 7.4,24.6 8,25.2 8,26"
+     style="fill:#ffffff;fill-opacity:1" />
+</svg>
