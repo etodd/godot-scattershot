@@ -260,7 +260,12 @@ func add_chunk(layer: ScatterShotLayer, chunk: ScatterShotChunk, origin: Vector2
 			for modulator: ScatterShotModulator in _modulators:
 				if (modulator.collection_mask & collection.modulator_mask) == 0:
 					continue
-				var modulator_local: Vector3 = modulator.to_local(global)
+				# project pixel onto modulator
+				var denom: float = global_basis.y.dot(modulator.global_basis.y)
+				if is_zero_approx(denom):
+					continue
+				var t: float = (modulator.global_position - global).dot(modulator.global_basis.y) / denom;
+				var modulator_local: Vector3 = modulator.to_local(global + global_basis.y * t)
 				density += modulator.density_at(Vector2(modulator_local.x, modulator_local.z))
 			if density * layer.density_at(pixel) < sample.r:
 				x += 1
