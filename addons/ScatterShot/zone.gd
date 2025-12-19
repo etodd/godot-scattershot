@@ -74,7 +74,10 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
-	_global_update(get_viewport().get_camera_3d(), Engine.get_physics_frames())
+	var camera: Camera3D = get_viewport().get_camera_3d()
+	if not camera:
+		return
+	_global_update(camera, Engine.get_physics_frames())
 
 static func _global_update(camera: Camera3D, frame_index: int) -> void:
 	if frame_index == _global_frame_index:
@@ -227,7 +230,7 @@ func add_chunk(layer: ScatterShotLayer, chunk: ScatterShotChunk, origin: Vector2
 	while y < layer.chunk_size:
 		var x: int = 0
 		while x < layer.chunk_size:
-			var random_offset: Vector2 = Vector2(_rng.randf(), _rng.randf())
+			var random_offset: Vector3 = Vector3(_rng.randf(), _rng.randf(), _rng.randf())
 			var random_rotation: Vector3 = Vector3(_rng.randf(), _rng.randf(), _rng.randf())
 			var random_scale: float = _rng.randf()
 			var pixel: Vector2i = origin + Vector2i(x, y)
@@ -279,8 +282,13 @@ func add_chunk(layer: ScatterShotLayer, chunk: ScatterShotChunk, origin: Vector2
 				ScatterShotCollection.Align.SURFACE:
 					transform.basis = Basis.looking_at(_raycast.get_collision_normal(), global_basis.x)
 					transform.basis = Basis(transform.basis.x, -transform.basis.z, transform.basis.y)
-			transform.basis = transform.basis * Basis.from_euler(random_rotation * Vector3(collection.random_pitch, collection.random_yaw, collection.random_roll))
-			transform.basis *= 1.0 + (random_scale * collection.random_scale)
+			transform.origin += transform.basis.y * lerpf(collection.min_offset_y, collection.max_offset_y, random_offset.y)
+			transform.basis = transform.basis * Basis.from_euler(Vector3(
+				lerpf(collection.min_pitch, collection.max_pitch, random_rotation.x),
+				lerpf(collection.min_yaw, collection.max_yaw, random_rotation.y),
+				lerpf(collection.min_roll, collection.max_roll, random_rotation.y)
+			))
+			transform.basis *= lerpf(collection.min_scale, collection.max_scale, random_scale)
 			chunk.items_add(collection, collection.item_index(proportion - proportion_sum), transform)
 			x += 1
 		y += 1

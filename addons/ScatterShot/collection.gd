@@ -40,28 +40,66 @@ enum Align { ZONE, SURFACE, WORLD }
 		random_offset_z = value
 		_changed()
 
-## Maximum random yaw rotation to apply to instances (relative to their alignment).
-@export_range(0, 360, 1, "radians_as_degrees") var random_yaw: float = PI * 2.0:
+## Minimum Y axis offset to apply to instance positions (relative to their
+## alignment).
+@export var min_offset_y: float = 0.0:
 	set(value):
-		random_yaw = value
+		min_offset_y = value
 		_changed()
 
-## Maximum random pitch rotation to apply to instances (relative to their alignment).
-@export_range(0, 360, 1, "radians_as_degrees") var random_pitch: float:
+## Maximum Y axis offset to apply to instance positions (relative to their
+## alignment).
+@export var max_offset_y: float = 0.0:
 	set(value):
-		random_pitch = value
+		max_offset_y = value
 		_changed()
 
-## Maximum random roll rotation to apply to instances (relative to their alignment).
-@export_range(0, 360, 1, "radians_as_degrees") var random_roll: float:
+## Minimum yaw rotation to apply to instances (relative to their alignment).
+@export_range(0, 360, 1, "radians_as_degrees") var min_yaw: float = 0.0:
 	set(value):
-		random_roll = value
+		min_yaw = value
 		_changed()
 
-## Maximum random scale increase to apply to instances.
-@export_range(0.0, 10.0, 0.001, "or_greater") var random_scale: float:
+## Maximum yaw rotation to apply to instances (relative to their alignment).
+@export_range(0, 360, 1, "radians_as_degrees") var max_yaw: float = PI * 2.0:
 	set(value):
-		random_scale = value
+		max_yaw = value
+		_changed()
+
+## Minimum pitch rotation to apply to instances (relative to their alignment).
+@export_range(0, 360, 1, "radians_as_degrees") var min_pitch: float:
+	set(value):
+		min_pitch = value
+		_changed()
+
+## Maximum pitch rotation to apply to instances (relative to their alignment).
+@export_range(0, 360, 1, "radians_as_degrees") var max_pitch: float:
+	set(value):
+		max_pitch = value
+		_changed()
+
+## Minimum roll rotation to apply to instances (relative to their alignment).
+@export_range(0, 360, 1, "radians_as_degrees") var min_roll: float:
+	set(value):
+		min_roll = value
+		_changed()
+
+## Maximum roll rotation to apply to instances (relative to their alignment).
+@export_range(0, 360, 1, "radians_as_degrees") var max_roll: float:
+	set(value):
+		max_roll = value
+		_changed()
+
+## Minimum scale to apply to instances.
+@export_range(0.0, 10.0, 0.001, "or_greater") var min_scale: float = 1.0:
+	set(value):
+		min_scale = value
+		_changed()
+
+## Maximum scale to apply to instances.
+@export_range(0.0, 10.0, 0.001, "or_greater") var max_scale: float = 1.0:
+	set(value):
+		max_scale = value
 		_changed()
 
 ## A bitmask determining which modulators affect instances in this collection.
