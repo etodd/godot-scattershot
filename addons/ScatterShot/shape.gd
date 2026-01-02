@@ -7,6 +7,21 @@ class_name ScatterShotShape extends Node3D
 	set(value):
 		density = value
 		_changed()
+
+## Image to modulate instance density.
+@export var density_map: Texture2D:
+	set(value):
+		if density_map:
+			density_map.changed.disconnect(_density_map_changed)
+		density_map = value
+		if density_map:
+			density_map.changed.connect(_density_map_changed)
+		_density_map_changed()
+
+var _density_map_image: Image
+func _density_map_changed() -> void:
+	_density_map_image = density_map.get_image() if density_map else null
+	_changed()
 		
 ## Hardness of the shape's edges. At full hardness, the density is 1.0 within
 ## the shape and 0.0 outside it. At zero hardness, the density fades smoothly
@@ -54,17 +69,29 @@ func _validate_property(property: Dictionary) -> void:
 func density_at(local_pos: Vector2) -> float:
 	match shape:
 		Shape.RECT:
+			var p: Vector2 = (local_pos - (rect_size * -0.5)) / rect_size
+			if p.x < 0.0 or p.y < 0.0 or p.x > 1.0 or p.y > 1.0:
+				return 0.0
+			var d: float = density
+			if _density_map_image:
+				d *= _density_map_image.get_pixel(p.x * _density_map_image.get_width(), p.y * _density_map_image.get_height()).r
 			if hardness == 1.0:
-				return density if Rect2(rect_size * -0.5, rect_size).has_point(local_pos) else 0.0
+				return d
 			var soft_range: float = min(rect_size.x, rect_size.y) * 0.5 * (1.0 - hardness)
 			var inner_rect: Rect2 = Rect2(rect_size * -0.5, rect_size).grow(-soft_range)
 			var inner_pos: Vector2 = local_pos.clamp(inner_rect.position, inner_rect.end)
-
-			return lerpf(density, 0.0, clampf((local_pos - inner_pos).length() / soft_range, 0.0, 1.0))
+			return lerpf(d, 0.0, clampf((local_pos - inner_pos).length() / soft_range, 0.0, 1.0))
 		Shape.CIRCLE:
+			var distance: float = local_pos.length()
+			if distance > circle_radius:
+				return 0.0
+			var d: float = density
+			if _density_map_image:
+				var p: Vector2 = (local_pos + Vector2(circle_radius, circle_radius)) / (circle_radius * 2.0)
+				d *= _density_map_image.get_pixel(p.x * _density_map_image.get_width(), p.y * _density_map_image.get_height()).r
 			if hardness == 1.0:
-				return density if local_pos.length() < circle_radius else 0.0
+				return d
 			var inner_radius: float = circle_radius * hardness
-			return lerpf(density, 0.0, clampf((local_pos.length() - inner_radius) / (circle_radius - inner_radius), 0.0, 1.0))
+			return lerpf(d, 0.0, clampf((distance - inner_radius) / (circle_radius - inner_radius), 0.0, 1.0))
 		_:
 			return 0.0
