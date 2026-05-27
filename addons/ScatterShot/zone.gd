@@ -283,7 +283,7 @@ func add_chunk(layer: ScatterShotLayer, chunk: ScatterShotChunk, origin: Vector2
 			transform.origin = _raycast.get_collision_point()
 			match collection.align:
 				ScatterShotCollection.Align.ZONE:
-					transform.basis = global_basis
+					transform.basis = global_basis.orthonormalized()
 				ScatterShotCollection.Align.SURFACE:
 					transform.basis = Basis.looking_at(_raycast.get_collision_normal(), global_basis.x)
 					transform.basis = Basis(transform.basis.x, -transform.basis.z, transform.basis.y)
