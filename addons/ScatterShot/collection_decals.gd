@@ -79,6 +79,17 @@ extends ScatterShotCollection
 		distance_fade_enabled = value
 		_changed()
 
+## The amount by which the depth of this decal will be adjusted when sorting by depth.
+## Uses the same units as the engine (which are typically meters). Adjusting it to a
+## higher value will make the decal reliably draw on top of other decals that are
+## otherwise positioned at the same spot. To ensure it always draws on top of other
+## objects around it (not positioned at the same spot), set the value to be greater than
+##  the distance between this decal and the other nearby decals.
+@export var sorting_offset: float = 0.0:
+	set(value):
+		sorting_offset = value
+		_changed()
+
 var _proportion_sum: int
 func proportion_sum() -> int:
 	if _proportion_sum == 0:

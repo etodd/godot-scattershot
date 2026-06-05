@@ -294,7 +294,7 @@ func add_chunk(layer: ScatterShotLayer, chunk: ScatterShotChunk, origin: Vector2
 				lerpf(collection.min_roll, collection.max_roll, random_rotation.y)
 			))
 			transform.basis *= lerpf(collection.min_scale, collection.max_scale, random_scale)
-			chunk.items_add(collection, collection.item_index(proportion - proportion_sum), transform)
+			chunk.items_add(collection, collection.item_index(proportion - proportion_sum), transform, _decal_sorting_offset(pixel, layer.grid_scale))
 			x += 1
 		y += 1
 	chunk.items_end()
@@ -383,3 +383,9 @@ func overlaps(modulator: ScatterShotModulator) -> bool:
 			if local2d.length() > modulator_radius + circle_radius:
 				return false
 	return true
+
+## _decal_sorting_offset returns a sorting offset which will prevent adjacent
+## decals in the grid from changing their draw order when the camera views them
+## from different angles.
+static func _decal_sorting_offset(pixel: Vector2i, grid_scale: float) -> float:
+	return grid_scale * ((pixel.x % 3) + (pixel.y % 3) * 3)

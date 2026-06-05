@@ -21,11 +21,11 @@ func items_begin() -> void:
 	active_instance_count = 0
 	active_body_count = 0
 
-func items_add(collection: ScatterShotCollection, item_index: int, transform: Transform3D) -> void:
+func items_add(collection: ScatterShotCollection, item_index: int, transform: Transform3D, decal_sorting_offset: float) -> void:
 	if collection is ScatterShotMeshes:
 		_add_mesh(collection, item_index, transform)
 	elif collection is ScatterShotDecals:
-		_add_decal(collection, item_index, transform)
+		_add_decal(collection, item_index, transform, decal_sorting_offset)
 	else:
 		push_error("items_add not implemented for this collection type")
 
@@ -60,9 +60,10 @@ func _add_mesh(collection: ScatterShotMeshes, item_index: int, transform: Transf
 	PhysicsServer3D.body_set_collision_layer(body_rid, collection.collision_layer)
 	PhysicsServer3D.body_set_collision_mask(body_rid, collection.collision_mask)
 
-func _add_decal(collection: ScatterShotDecals, item_index: int, transform: Transform3D) -> void:
+func _add_decal(collection: ScatterShotDecals, item_index: int, transform: Transform3D, sorting_offset: float) -> void:
 	var decal_rid: RID = collection.decal_rid(layer, item_index)
-	_add_instance(decal_rid, transform, collection.visibility_layers)
+	var instance_rid: RID = _add_instance(decal_rid, transform, collection.visibility_layers)
+	RenderingServer.instance_set_pivot_data(instance_rid, sorting_offset + collection.sorting_offset, false)
 
 func _add_instance(base_rid: RID, transform: Transform3D, visibility_layers: int) -> RID:
 	var instance_rid: RID
