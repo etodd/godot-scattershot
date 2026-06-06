@@ -63,7 +63,7 @@ func _add_mesh(collection: ScatterShotMeshes, item_index: int, transform: Transf
 func _add_decal(collection: ScatterShotDecals, item_index: int, transform: Transform3D, sorting_offset: float) -> void:
 	var decal_rid: RID = collection.decal_rid(layer, item_index)
 	var instance_rid: RID = _add_instance(decal_rid, transform, collection.visibility_layers)
-	RenderingServer.instance_set_pivot_data(instance_rid, sorting_offset + collection.sorting_offset, false)
+	RenderingServer.instance_set_pivot_data(instance_rid, (sorting_offset * maxf(collection.size.x, maxf(collection.size.y, collection.size.z))) + collection.sorting_offset, false)
 
 func _add_instance(base_rid: RID, transform: Transform3D, visibility_layers: int) -> RID:
 	var instance_rid: RID
