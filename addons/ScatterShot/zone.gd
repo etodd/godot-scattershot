@@ -63,6 +63,7 @@ func _ready() -> void:
 	_raycast.process_mode = Node.PROCESS_MODE_DISABLED
 	_raycast.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_raycast.top_level = true
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(_raycast, false, Node.INTERNAL_MODE_FRONT)
 
 
