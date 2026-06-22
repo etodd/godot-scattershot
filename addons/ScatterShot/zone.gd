@@ -55,6 +55,8 @@ var _layer_chunks: Dictionary[ScatterShotLayer, Dictionary] = {}
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _modulators: Dictionary[ScatterShotModulator, bool] = {}
 
+var _editor_camera: Variant
+
 func _ready() -> void:
 	_raycast = RayCast3D.new()
 	_raycast.hit_back_faces = false
@@ -63,18 +65,18 @@ func _ready() -> void:
 	_raycast.process_mode = Node.PROCESS_MODE_DISABLED
 	_raycast.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_raycast.top_level = true
-	process_mode = Node.PROCESS_MODE_ALWAYS
+	if Engine.is_editor_hint():
+		_editor_camera = load("res://addons/ScatterShot/editor_camera.gd")
+	else:
+		set_process(false)
 	add_child(_raycast, false, Node.INTERNAL_MODE_FRONT)
 
-
 func _process(_delta: float) -> void:
-	if not Engine.is_editor_hint():
-		return
-	_global_update(EditorInterface.get_editor_viewport_3d().get_camera_3d(), Engine.get_process_frames())
+	# disabled in-game by set_process(false)
+	_global_update(_editor_camera.get_instance(), Engine.get_process_frames())
 
 func _physics_process(_delta: float) -> void:
-	if Engine.is_editor_hint():
-		return
+	# disabled in editor
 	var camera: Camera3D = get_viewport().get_camera_3d()
 	if not camera:
 		return
