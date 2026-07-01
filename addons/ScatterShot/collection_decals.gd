@@ -120,28 +120,20 @@ func _changed() -> void:
 			RenderingServer.free_rid(modified_decal.rid)
 		decals.clear()
 	_layer_modified_decals.clear()
+	
+	# preload decals
+	for rid: RID in _preloaded_decal_rids:
+		RenderingServer.free_rid(rid)
+	_preloaded_decal_rids.resize(decals.size())
+	for i: int in decals.size():
+		_preloaded_decal_rids[i] = _create_decal(i)
 
 func decal_rid(layer: ScatterShotLayer, item_index: int) -> RID:
 	var modified_decals: Dictionary[int, ModifiedDecal] = _modified_decals_for_layer(layer)
 	var modified_decal := modified_decals.get(item_index)
 	if not modified_decal:
 		modified_decal = ModifiedDecal.new()
-		modified_decal.rid = RenderingServer.decal_create()
-		RenderingServer.decal_set_albedo_mix(modified_decal.rid, albedo_mix)
-		RenderingServer.decal_set_cull_mask(modified_decal.rid, cull_mask)
-		RenderingServer.decal_set_fade(modified_decal.rid, upper_fade, lower_fade)
-		RenderingServer.decal_set_modulate(modified_decal.rid, modulate)
-		RenderingServer.decal_set_normal_fade(modified_decal.rid, normal_fade)
-		RenderingServer.decal_set_size(modified_decal.rid, size)
-		var decal: ScatterShotDecal = decals[item_index]
-		if decal.texture_albedo:
-			RenderingServer.decal_set_texture(modified_decal.rid, RenderingServer.DECAL_TEXTURE_ALBEDO, decal.texture_albedo.get_rid())
-		if decal.texture_normal:
-			RenderingServer.decal_set_texture(modified_decal.rid, RenderingServer.DECAL_TEXTURE_NORMAL, decal.texture_normal.get_rid())
-		if decal.texture_orm:
-			RenderingServer.decal_set_texture(modified_decal.rid, RenderingServer.DECAL_TEXTURE_ORM, decal.texture_orm.get_rid())
-		if decal.texture_emission:
-			RenderingServer.decal_set_texture(modified_decal.rid, RenderingServer.DECAL_TEXTURE_EMISSION, decal.texture_emission.get_rid())
+		modified_decal.rid = _create_decal(item_index)
 		modified_decals[item_index] = modified_decal
 	
 	if modified_decal.view_distance == layer.view_distance and modified_decal.fade_distance == layer.fade_distance:
@@ -151,6 +143,25 @@ func decal_rid(layer: ScatterShotLayer, item_index: int) -> RID:
 	modified_decal.view_distance = layer.view_distance
 	modified_decal.fade_distance = layer.fade_distance
 	return modified_decal.rid
+
+func _create_decal(item_index: int) -> RID:
+	var rid: RID = RenderingServer.decal_create()
+	RenderingServer.decal_set_albedo_mix(rid, albedo_mix)
+	RenderingServer.decal_set_cull_mask(rid, cull_mask)
+	RenderingServer.decal_set_fade(rid, upper_fade, lower_fade)
+	RenderingServer.decal_set_modulate(rid, modulate)
+	RenderingServer.decal_set_normal_fade(rid, normal_fade)
+	RenderingServer.decal_set_size(rid, size)
+	var decal: ScatterShotDecal = decals[item_index]
+	if decal.texture_albedo:
+		RenderingServer.decal_set_texture(rid, RenderingServer.DECAL_TEXTURE_ALBEDO, decal.texture_albedo.get_rid())
+	if decal.texture_normal:
+		RenderingServer.decal_set_texture(rid, RenderingServer.DECAL_TEXTURE_NORMAL, decal.texture_normal.get_rid())
+	if decal.texture_orm:
+		RenderingServer.decal_set_texture(rid, RenderingServer.DECAL_TEXTURE_ORM, decal.texture_orm.get_rid())
+	if decal.texture_emission:
+		RenderingServer.decal_set_texture(rid, RenderingServer.DECAL_TEXTURE_EMISSION, decal.texture_emission.get_rid())
+	return rid
 
 class ModifiedDecal:
 	var rid: RID
@@ -165,6 +176,8 @@ func _modified_decals_for_layer(layer: ScatterShotLayer) -> Dictionary[int, Modi
 		untyped = d
 		_layer_modified_decals[layer] = d
 	return untyped
+
+var _preloaded_decal_rids: Array[RID] = []
 
 func _notification(what: Variant):
 	if what == NOTIFICATION_PREDELETE:
